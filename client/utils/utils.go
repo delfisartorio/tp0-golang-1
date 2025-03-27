@@ -34,7 +34,7 @@ func IniciarConfiguracion(filePath string) *globals.Config {
 	return config
 }
 
-func LeerConsola() {
+/* func LeerConsola() {
 	// Leer de la consola
 	var text string
 	reader := bufio.NewReader(os.Stdin)
@@ -42,16 +42,51 @@ func LeerConsola() {
 	for text != "\r\n"{
 		text, _ = reader.ReadString('\n')
 		log.Println(text)
+		
 	}
+} */
+
+func LeerConsola() Paquete { //LeerConsola no tiene parametros por eso vacio los () y devuelve Paquete por eso al lado eso
+	// Crear el paquete para almacenar los mensajes
+	paquete := Paquete{}
+
+	reader := bufio.NewReader(os.Stdin)
+	log.Println("Ingrese los mensajes")
+
+	for {
+		text, _ := reader.ReadString('\n')
+		log.Println(text)
+
+		if text == "\r\n" { // Si el usuario presiona Enter sin escribir nada, termina
+			break
+		}
+
+		paquete.Valores = append(paquete.Valores, text) // Guardar en el paquete
+	}
+
+	return paquete
 }
 
-func GenerarYEnviarPaquete() {
+/* func GenerarYEnviarPaquete() {
 	paquete := Paquete{}
 	// Leemos y cargamos el paquete
 
 	log.Printf("paqute a enviar: %+v", paquete)
 	// Enviamos el paqute
 }
+ */
+ func GenerarYEnviarPaquete(ip string, puerto int) {
+	paquete := LeerConsola() // Leer la consola y obtener el paquete
+
+	if len(paquete.Valores) == 0 {
+		log.Println("No se ingresaron mensajes para enviar.")
+		return
+	}
+
+	log.Printf("Paquete a enviar: %+v", paquete)
+	EnviarPaquete(ip, puerto, paquete) // Enviar el paquete al servidor
+}
+
 
 func EnviarMensaje(ip string, puerto int, mensajeTxt string) {
 	mensaje := Mensaje{Mensaje: mensajeTxt}
