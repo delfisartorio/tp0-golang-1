@@ -45,7 +45,7 @@ func LeerConsola() Paquete { //LeerConsola no tiene parametros por eso vacio los
 		text, _ := reader.ReadString('\n')
 		log.Println(text)
 
-		if text == "\r\n" { // Si el usuario presiona Enter sin escribir nada, termina
+		if text == "\n" { // Si el usuario presiona Enter sin escribir nada, termina
 			break
 		}
 
@@ -56,7 +56,7 @@ func LeerConsola() Paquete { //LeerConsola no tiene parametros por eso vacio los
 }
 
  func GenerarYEnviarPaquete(paquete Paquete,ip string, puerto int) {
-	
+
 	if len(paquete.Valores) == 0 {
 		log.Println("No se ingresaron mensajes para enviar.")
 		return
